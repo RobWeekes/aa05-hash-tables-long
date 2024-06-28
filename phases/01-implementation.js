@@ -77,7 +77,10 @@ class HashTable {
     return undefined;
   }
 
-  resize() {}
+  resize() {
+    this.capacity *= 2;
+    this.data = new Array(this.capacity).fill(null);
+  }
 
   delete(key) {}
 }

@@ -62,12 +62,13 @@ class HashTable {
     const index = this.hashMod(key);
     let currentPair = this.data[index];
 
-    while (currentPair && currentPair.key !== key) {
+    while (currentPair) {
+      if (currentPair.key === key) {
+        return currentPair.value;
+      }
       currentPair = currentPair.next;
     }
-    if (this.data[index].key === key) {
-      return this.data[index].value;
-    }
+
     return undefined;
   }
 

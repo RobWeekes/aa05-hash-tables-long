@@ -68,7 +68,12 @@ class HashTable {
       }
       currentPair = currentPair.next;
     }
-
+    // while (currentPair && currentPair.key !== key) {
+    //   currentPair = currentPair.next;
+    // }        // DIDNT WORK
+    // if (this.data[index].key === key) {
+    //   return this.data[index].value;
+    // }
     return undefined;
   }
 

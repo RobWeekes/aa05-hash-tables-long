@@ -54,7 +54,16 @@ class HashTable { // get O(1), set O(1), deleteKey O(1)
         }
 
     read(key) {
-
+        const index = this.hashMod(key);
+        let currentPair = this.data[index];
+        
+        while(currentPair && currentPair.key !== key) {
+            currentPair = currentPair.next;
+        }
+        if(this.data[index].key === key) {
+            return this.data[index].value;
+        } 
+        return undefined;
     }
 
 
@@ -67,6 +76,81 @@ class HashTable { // get O(1), set O(1), deleteKey O(1)
 
     }
 }
+
+// local testing 
+
+// let hashTable = new HashTable(4);
+
+// hashTable.insert("key1", "value1");
+// hashTable.insert("key2", "value2");
+// hashTable.insert("key3", "value3");
+
+// console.log(hashTable.hashMod("key1"));
+// console.log(hashTable.hashMod("key2"));
+// console.log(hashTable.hashMod("key3"));
+
+// console.log(hashTable.data[2].key) // "key1"
+// console.log(hashTable.data[3].key) // "key2"
+// console.log(hashTable.data[0].key) // "key3"
+
+// console.log(hashTable.data[2].value) // "value1"
+// console.log(hashTable.data[3].value) // "value2"
+// console.log(hashTable.data[0].value) // "value3"
+
+
+// hashTable = new HashTable(2);
+
+// console.log(hashTable.capacity) // (2);
+
+// hashTable.insert("key2", "value2");
+// hashTable.insert("key4", "value4");
+
+// console.log(hashTable.data[1].next.key) // ("key2")
+// console.log(hashTable.data[1].key) // ("key4")
+
+// console.log(hashTable.data[1].next.value) // ("value2")
+// console.log(hashTable.data[1].value) // ("value4")
+
+
+// hashTable = new HashTable(4);
+
+// hashTable.insert("key1", "value1")
+// hashTable.insert("key2", "value2")
+// hashTable.insert("key3", "value3")
+
+// console.log(hashTable.read("key1")) // "value1"
+// console.log(hashTable.read("key2")) // "value2"
+// console.log(hashTable.read("key3")) // "value3"
+
+// console.log(hashTable.read("key5")) // undefined
+
+
+hashTable = new HashTable(2);
+
+console.log(hashTable.capacity) // 2
+
+console.log(hashTable.hashMod("key1"));
+console.log(hashTable.hashMod("key2"));
+console.log(hashTable.hashMod("key3"));
+console.log(hashTable.hashMod("key5"));
+console.log(hashTable.hashMod("key9"));
+console.log(hashTable.hashMod("key10"));
+
+hashTable.insert("key1", "value1")
+hashTable.insert("key2", "value2")
+hashTable.insert("key3", "value3")
+hashTable.insert("key5", "value5")
+hashTable.insert("key9", "value9")
+hashTable.insert("key10", "value10")
+
+console.log(hashTable.read("key1")) // "value1";
+console.log(hashTable.read("key2")) // "value2";
+console.log(hashTable.read("key3")) // "value3";
+console.log(hashTable.read("key5")) // "value5";
+console.log(hashTable.read("key9")) // "value9";
+console.log(hashTable.read("key10")) // "value10";
+
+console.log(hashTable.read("key20")) // undefined
 
 
 module.exports = HashTable;

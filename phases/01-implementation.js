@@ -71,15 +71,18 @@ class HashTable {
     // while (currentPair && currentPair.key !== key) {
     //   currentPair = currentPair.next;
     // }        // DIDNT WORK
-    // if (this.data[index].key === key) {
-    //   return this.data[index].value;
+    // if (currentPair) {
+    //   return currentPair.value;
     // }
     return undefined;
   }
 
   resize() {
     this.capacity *= 2;
-    this.data = new Array(this.capacity).fill(null);
+    const copy = [...this.data];
+    this.data = new Array(this.capacity);
+    // for each (copy)
+        // while loop (step thru nodes)
   }
 
   delete(key) {}

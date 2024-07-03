@@ -4,23 +4,22 @@ function anagrams(str1, str2) {
 
 
 function commonElements(arr1, arr2) {
-  // Your code here 
+    // use a set !!
 }
 
 
 function duplicate(arr) {
-  // Your code here 
+    // use a set !!
 }
 
 
 function twoSum(nums, target) {
-  // Your code here 
+    // use a set !!
 }
 
 
 function wordPattern(pattern, strings) {
-  // Your code here 
+    // use a set !!
 }
-
 
 module.exports = [anagrams, commonElements, duplicate, twoSum, wordPattern];

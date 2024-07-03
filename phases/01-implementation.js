@@ -21,7 +21,7 @@ class HashTable {
     for (let i = 0; i < key.length; i++) {
       hashValue += key.charCodeAt(i);
     }
-
+    // console.log(hashValue);
     return hashValue;
   }
 
@@ -34,24 +34,25 @@ class HashTable {
     const index = this.hashMod(key);
     // console.log(index);
     let currentPair = this.data[index];
+    // console.log(currentPair);
 
     // check if there's already a value at the hashed index
     while (currentPair && currentPair.key !== key) {
-      // check for KEY matches, stop if it finds one, or it reaches the end
+      // check for KEY matches, stop if it finds one, or it reaches the end and becomes null (tail.next = null)
       currentPair = currentPair.next; // steps thru until it matches a key, or reaches the end/tail
     }
     if (currentPair) {
-      // if we have a matching key, line 42 executes. If we reach the tail, it does not execute because 'currentPair' will be set to 'null', (currentPair.next of the tail line 39)
-      currentPair.value = value; // OVERWRITE -- if not at the tail, change the value of the node that matched the input 'key'
+      // if we have a matching key, next line executes. If we reach the tail, it does not execute because 'currentPair' will be set to 'null', (currentPair.next of the tail)
+      currentPair.value = value; // OVERWRITE -- if new node key already exists, change the value of the node at that 'key'
     } else {
-      // if we found no matches, 'else' block happens bcuz there were no key matches along the way \/
+      // if no key matches, 'else' block happens bcuz if(currentKey) was null / falsey
       const newPair = new KeyValuePair(key, value); // if there were no key matches in the linked list, assign the newPair as the head node \/
       // assign newPair as the head
-      if (!this.data[index]) {
+      if (!this.data[index]) {  // if head node at index bucket doesn't exist, bucket is empty
         // NO COLLISION condition, empty bucket -- insert new pair at the empty index
-        this.data[index] = newPair; // EMPTY BUCKET -> insert the new pair as is
+        this.data[index] = newPair; // EMPTY BUCKET - insert the new pair as is
       } else {
-        newPair.next = this.data[index]; // ->  ->  ->  COLLISION condition -- insert new pair and assign new pair's 'next' attribute to the old pair 'this.data[index]'
+        newPair.next = this.data[index]; // COLLISION condition -> insert new pair and assign new pair's 'next' attribute to the old head 'this.data[index]'
         this.data[index] = newPair;
       } // 'this.data[index]' is the bucket. Set the new pair as the bucket's value, and point to the previous pair if one already existed, using 'newPair.next = this.data[index];'
       this.count++;
@@ -70,7 +71,7 @@ class HashTable {
     }
     // while (currentPair && currentPair.key !== key) {
     //   currentPair = currentPair.next;
-    // }        // DIDNT WORK
+    // }                                      //   ALSO WORKS
     // if (currentPair) {
     //   return currentPair.value;
     // }
@@ -78,15 +79,49 @@ class HashTable {
   }
 
   resize() {
+    let key = '';
+    let value = '';
     this.capacity *= 2;
+    console.log(this.data);
     const copy = [...this.data];
-    this.data = new Array(this.capacity);
-    // for each (copy)
-        // while loop (step thru nodes)
-  }
+    console.log(copy);
+    // this.data = new Array(numBuckets).fill(null); // from constructor
+    this.data = new Array(this.capacity).fill(null);
+    console.log(copy[0].key);
+    console.log(copy[1].key);
+    // console.log(copy[2].key);  // key1 should be inserted at head (duplicate hashMod index) 
+    console.log(hashTable.count) //
+    
+    for(let i = 0; i < copy.length; i++) {
+        let index = (this.hashMod(copy[i].key));
+        console.log(index);
+        let currentPair = copy[i];
+        console.log(currentPair);
+        // let currentPair = this.data[index];
 
-  delete(key) {}
+        // let bucket = copy[i];
+        // console.log(bucket);
+        key = currentPair.key;
+        console.log(key);
+        value = currentPair.value;
+        console.log(value);
+        // let current = bucket.next;
+        while(currentPair) {
+            console.log(key);
+            currentPair = currentPair.next;
+            console.log('step thru bucket');
+            this.insert(key, value);
+        } 
+            this.insert(key, value);
+        }
+    }
+    // while loop (step thru nodes)
+
+    delete(key) {
+    
+    }
 }
+
 
 // local testing
 
@@ -159,5 +194,31 @@ class HashTable {
 // console.log(hashTable.read("key10")); // "value10";
 
 // console.log(hashTable.read("key20")); // undefined
+
+hashTable = new HashTable(2);
+console.log(hashTable.count) // 0
+
+hashTable.insert("key1", "value1");
+console.log(hashTable.count) //
+hashTable.insert("key2", "value2");
+console.log(hashTable.count) //
+hashTable.insert("key3", "value3");
+console.log(hashTable.count) //
+console.log(hashTable.read("key1")) // "value2"
+
+let capacity = hashTable.capacity;
+console.log(capacity);
+console.log(hashTable.count) //
+
+hashTable.resize();
+console.log(hashTable.count) //
+
+console.log(hashTable.count) // 3
+console.log(hashTable.capacity) // capacity * 2
+console.log(hashTable.data.length) // capacity * 2
+
+console.log(hashTable.read("key1")) // "value1"
+console.log(hashTable.read("key2")) // "value2"
+console.log(hashTable.read("key3")) // "value3"
 
 module.exports = HashTable;

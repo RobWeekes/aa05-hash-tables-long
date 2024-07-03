@@ -82,40 +82,34 @@ class HashTable {
     let key = '';
     let value = '';
     this.capacity *= 2;
-    console.log(this.data);
+    this.count = 0;    // reset pair count to 0 before duplicating pairs into bigger array copy
+    // console.log(this.data);
     const copy = [...this.data];
-    console.log(copy);
-    // this.data = new Array(numBuckets).fill(null); // from constructor
+    // console.log(copy);
+    // constructor: this.data = new Array(numBuckets).fill(null);
     this.data = new Array(this.capacity).fill(null);
-    console.log(copy[0].key);
-    console.log(copy[1].key);
-    // console.log(copy[2].key);  // key1 should be inserted at head (duplicate hashMod index) 
-    console.log(hashTable.count) //
+    // console.log(copy[0].key); // key3
+    // console.log(copy[1].key); // key2
+    // key1 should be inserted in linked list
     
     for(let i = 0; i < copy.length; i++) {
-        let index = (this.hashMod(copy[i].key));
-        console.log(index);
-        let currentPair = copy[i];
-        console.log(currentPair);
-        // let currentPair = this.data[index];
+        // let index = (this.hashMod(copy[i].key));
+        // console.log(index);             // 0, 3
+        // let currentPair = copy[i];
+        // console.log(currentPair);
+        // console.log(hashTable.count) // 0, 2
 
-        // let bucket = copy[i];
-        // console.log(bucket);
-        key = currentPair.key;
-        console.log(key);
-        value = currentPair.value;
-        console.log(value);
-        // let current = bucket.next;
-        while(currentPair) {
-            console.log(key);
-            currentPair = currentPair.next;
-            console.log('step thru bucket');
+        while(copy[i]) {
+            key = copy[i].key;
+            // console.log(key); // key3, key1, key2
+            value = copy[i].value;
+            // console.log(value); // value3, value1, value2
+            copy[i] = copy[i].next;
+            // console.log('step thru bucket');
             this.insert(key, value);
         } 
-            this.insert(key, value);
-        }
     }
-    // while loop (step thru nodes)
+  }
 
     delete(key) {
     
